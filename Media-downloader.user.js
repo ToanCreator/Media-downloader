@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Media Downloader
 // @namespace    https://toancreator.dev/
-// @version      1.8.3
+// @version      1.8.4
 // @description  Captures network links and downloads Video – Image – Audio (including HLS .m3u8 and YouTube) on hover. Liquid-glass UI with a "Quick download" button that lists everything downloadable on the page.
 // @author       ToanCreator
 // @match        *://*/*
@@ -17,6 +17,8 @@
 // @grant        unsafeWindow
 // @connect      *
 // @license      MIT
+// @updateURL    https://raw.githubusercontent.com/ToanCreator/Media-downloader/main/Media-downloader.user.js
+// @downloadURL  https://raw.githubusercontent.com/ToanCreator/Media-downloader/main/Media-downloader.user.js
 // ==/UserScript==
 
 (function () {
@@ -42,6 +44,11 @@
   };
   const W = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
   const IS_TOP = (() => { try { return window.top === window; } catch (_) { return false; } })();
+  // Dấu hiệu phiên bản thật sự đang chạy (khi dùng @require thì GM_info chỉ cho thấy phiên bản của đoạn loader, không phải của file này).
+  // Kiểm tra: mở Console của trang và gõ  __MD_VERSION
+  const MD_VERSION = '1.8.4';
+  try { W.__MD_VERSION = MD_VERSION; } catch (_) {}
+  try { if (IS_TOP) console.info('[Media Downloader] running v' + MD_VERSION + ' · grants: GM_getValue=' + (typeof GM_getValue) + ', GM_setValue=' + (typeof GM_setValue)); } catch (_) {}
   const IS_YT = /(^|\.)(youtube\.com|youtube-nocookie\.com)$/i.test(location.hostname);
   const IS_GRAB = /(^|\.)grabshorts\.com$/i.test(location.hostname);
   // Các trang nổi tiếng: nút "mở link trong tab mới" sẽ chuyển sang GrabShorts
